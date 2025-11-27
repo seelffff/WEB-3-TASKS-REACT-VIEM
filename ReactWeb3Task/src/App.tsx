@@ -1,23 +1,35 @@
+//TASK - 2
 import {useState} from 'react'; 
 
 const App = (): any => { 
-  const [count, setCount] = useState(0); 
-
-  function handlePlus(): any { 
-    setCount(prev => prev + 1); 
+  const [todos, setTodos] = useState<any[]>([]); 
+  const [input, setInput] = useState<any>('');
+  function handleAdd(): any { 
+    setTodos([...todos, input])
+    setInput('')
   }
-  function handleMinus(): any { 
-    setCount(prev => prev - 1)
+  function handleInput(event: any): any{ 
+    setInput(event.target.value)
   }
-  function restartCounter(): any{ 
-    setCount(0)
+  function handleDelete(index: any): any { 
+    setTodos(todos.filter((todo, i) => i !== index ))
   }
-  return ( 
+  return(
     <>
-      <button onClick ={handlePlus}>+</button>
-      <button onClick ={handleMinus}>-</button>
-      <button onClick ={restartCounter}>Restart</button>
-      <h1>{count}</h1>
+    <input 
+    value={input}
+    placeholder='Введите задачу'
+    onChange = {handleInput}
+    />
+      <button onClick={handleAdd}>Add</button>
+      <ul>
+      {todos.map((todo: string, index: number) => ( 
+        <li key={index}>{todo}
+          <button onClick ={() =>handleDelete(index)} >Delete</button>
+        </li>
+        
+      ))}
+      </ul>
     </>
   )
 }
